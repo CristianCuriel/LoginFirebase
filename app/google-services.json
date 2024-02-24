@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "509028181340",
+    "project_id": "freedomus-gali",
+    "storage_bucket": "freedomus-gali.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:509028181340:android:74450f9f9829127f8ecd99",
+        "android_client_info": {
+          "package_name": "com.freedomus.project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "509028181340-cv5s6a6f4gbj2851j1pgdsfun4fer81o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0MbSZJoDW4B2Hx3mnN_j9sBGalhrcgYs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "509028181340-cv5s6a6f4gbj2851j1pgdsfun4fer81o.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "509028181340-mohm46r0nfrpfmvsge2qds7vkn350m6i.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.freedomus.project"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
