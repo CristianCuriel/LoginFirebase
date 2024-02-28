@@ -1,4 +1,4 @@
-package com.freedomus.project.app.ui.singIn.component
+package com.freedomus.project.app.ui.login.component
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack

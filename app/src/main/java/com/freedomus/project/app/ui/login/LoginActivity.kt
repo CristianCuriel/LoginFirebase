@@ -1,10 +1,13 @@
-package com.freedomus.project.app.ui.singIn
+package com.freedomus.project.app.ui.login
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -12,23 +15,31 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.freedomus.project.app.ui.singIn.component.EditTextLogin
-import com.freedomus.project.app.ui.singIn.component.OtherAccounts
-import com.freedomus.project.app.ui.singIn.component.TopAppBarLogin
+import com.freedomus.project.app.ui.login.component.EditTextLogin
+import com.freedomus.project.app.ui.login.component.OtherAccounts
+import com.freedomus.project.app.ui.login.component.TopAppBarLogin
 
-@Preview(showSystemUi = true)
+//@Preview(showSystemUi = true)
 @Composable
-fun LoginSingIn() {
+fun LoginSingIn(loginViewModel: LoginViewModel) {
+
+    val uiState by loginViewModel.viewState.collectAsState()
+
+    Box(Modifier.fillMaxSize().background(Color(0x9EC9B507)), contentAlignment = Alignment.Center) {
+        CircularProgressIndicator(strokeWidth = 8.dp,color = Color.Black)
+    }
 
     Scaffold(topBar = { TopAppBarLogin("Registro") }, containerColor = Color(0xFFF5B201)) {
         Column(
@@ -38,7 +49,7 @@ fun LoginSingIn() {
         ) {
             TitleSingIn()
             Spacer(modifier = Modifier.padding(vertical = 8.dp))
-            BodySingIn()
+            BodySingIn(loginViewModel, uiState)
         }
 
     }//Scaffold
@@ -46,7 +57,8 @@ fun LoginSingIn() {
 }
 
 @Composable
-fun BodySingIn() {
+fun BodySingIn(loginViewModel: LoginViewModel, uiState: LoginViewState) {
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -66,7 +78,7 @@ fun BodySingIn() {
         ) {
             Spacer(modifier = Modifier.padding(vertical = 10.dp))
 
-            EditTextLogin()
+            EditTextLogin(loginViewModel, uiState)
 
             Row(
                 Modifier
@@ -84,7 +96,9 @@ fun BodySingIn() {
                 .fillMaxWidth()
                 .padding(vertical = 4.dp, horizontal = 14.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Color.Black),
-                onClick = { /*TODO*/ }) {
+                onClick = { loginViewModel.onLoginSelected() }
+            )
+            {
                 Text(
                     modifier = Modifier.padding(10.dp),
                     text = "Iniciar sesion",

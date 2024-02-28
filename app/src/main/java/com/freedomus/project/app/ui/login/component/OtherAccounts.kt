@@ -1,4 +1,4 @@
-package com.freedomus.project.app.ui.singIn.component
+package com.freedomus.project.app.ui.login.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
