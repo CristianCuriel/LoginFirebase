@@ -27,6 +27,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -48,6 +49,8 @@ fun VerificationUser(loginViewModel: LoginViewModel, navigationController: NavHo
 fun Body(loginViewModel: LoginViewModel, navigationController: NavHostController) {
 
     // var keyboardController = LocalSoftwareKeyboardController.current
+
+    val verificationViewModel = viewModel<VerificationViewModel>()
 
     Scaffold(
         topBar = {
@@ -85,7 +88,7 @@ fun Body(loginViewModel: LoginViewModel, navigationController: NavHostController
                     .padding(top = 24.dp)
 
             ) {
-                BtnVerification() {}
+                BtnVerification() { verificationViewModel.EmailVerification() }
             }
 
         }
@@ -96,6 +99,7 @@ fun Body(loginViewModel: LoginViewModel, navigationController: NavHostController
 
 @Composable
 fun HeaderView() {
+
     Text(
         text = "Verficacion",
         fontSize = 32.sp,
@@ -107,10 +111,19 @@ fun HeaderView() {
     Spacer(modifier = Modifier.size(12.dp))
 
     Text(
-        text = "Se te ha enviado a tu correo un mensaje de verifiacion con el cual podremos validar tu cuenta. " +
-                "Valida tu cuenta y vuelve a iniciar sesion.",
+        text = "Se te ha enviado a tu correo un mensaje de verifiacion con el cual podremos validar tu cuenta. ",
         fontSize = 14.sp,
         fontWeight = FontWeight.Normal,
+        textAlign = TextAlign.Start,
+        letterSpacing = 2.sp
+    )
+
+    Spacer(modifier = Modifier.size(28.dp))
+
+    Text(
+        text = "Valida tu cuenta y vuelve a iniciar sesion.",
+        fontSize = 14.sp,
+        fontWeight = FontWeight.SemiBold,
         textAlign = TextAlign.Start,
         letterSpacing = 2.sp
     )

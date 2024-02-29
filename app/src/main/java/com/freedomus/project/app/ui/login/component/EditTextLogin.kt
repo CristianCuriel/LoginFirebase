@@ -6,14 +6,21 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,6 +28,8 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.freedomus.project.app.ui.login.LoginViewModel
@@ -48,11 +57,20 @@ fun EditTextLogin(loginViewModel: LoginViewModel, uiState: LoginViewState) {
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun Password(password: String, visible: Boolean, keyboardController: SoftwareKeyboardController, onTextChange: (String) -> Unit) {
+fun Password(
+    password: String,
+    visible: Boolean,
+    keyboardController: SoftwareKeyboardController,
+    onTextChange: (String) -> Unit,
+) {
 
-    Column(modifier = Modifier
-        .fillMaxWidth()
-        .padding(vertical = 4.dp, horizontal = 14.dp)) {
+    var passwordVisibility by remember { mutableStateOf(false)}
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp, horizontal = 14.dp)
+    ) {
 
         if (!visible) {
             Text(
@@ -74,25 +92,52 @@ fun Password(password: String, visible: Boolean, keyboardController: SoftwareKey
             colors = OutlinedTextFieldDefaults.colors(
                 unfocusedContainerColor = Color(0xFFF5F5F5),
                 unfocusedBorderColor = Color(0xFFF5F5F5),
-                unfocusedPlaceholderColor = Color.DarkGray
+                unfocusedPlaceholderColor = Color.DarkGray,
+                focusedBorderColor = Color(0xFFF5B201),
+                focusedContainerColor = Color.Transparent
             ),
             shape = RoundedCornerShape(26.dp),
             singleLine = true,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Password
+            ),
+            trailingIcon = {
+                val imagen = if (passwordVisibility) {
+                    Icons.Filled.VisibilityOff
+                } else {
+                    Icons.Filled.Visibility
+                }
+                IconButton(onClick = {passwordVisibility = !passwordVisibility}){
+                    Icon(imageVector = imagen, contentDescription = "show password")
+                }
+
+            },
+
+            visualTransformation = if (passwordVisibility) {
+                VisualTransformation.None
+            } else {
+                PasswordVisualTransformation()
+            }
         )
     }
 }
 
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun Email(email: String, visible: Boolean, keyboardController: SoftwareKeyboardController, onTextChange: (String) -> Unit) {
+fun Email(
+    email: String,
+    visible: Boolean,
+    keyboardController: SoftwareKeyboardController,
+    onTextChange: (String) -> Unit,
+) {
 
-    Column(modifier = Modifier
-        .fillMaxWidth()
-        .padding(vertical = 4.dp, horizontal = 14.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp, horizontal = 14.dp)
+    ) {
 
-        if(!visible) {
+        if (!visible) {
             Text(
                 "Correo no valido, verificar",
                 fontSize = 12.sp,
@@ -113,9 +158,15 @@ fun Email(email: String, visible: Boolean, keyboardController: SoftwareKeyboardC
             colors = OutlinedTextFieldDefaults.colors(
                 unfocusedContainerColor = Color(0xFFF5F5F5),
                 unfocusedBorderColor = Color(0xFFF5F5F5),
-                unfocusedPlaceholderColor = Color.DarkGray
+                unfocusedPlaceholderColor = Color.DarkGray,
+                focusedBorderColor = Color(0xFFF5B201),
+                focusedContainerColor = Color.Transparent
             ),
-            shape = RoundedCornerShape(26.dp)
+            shape = RoundedCornerShape(26.dp),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Email
+            )
+
         )
 
     }//Column

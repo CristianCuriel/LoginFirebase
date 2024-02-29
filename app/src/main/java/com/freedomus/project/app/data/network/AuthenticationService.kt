@@ -12,6 +12,10 @@ class AuthenticationService {
         firebase.auth.signInWithEmailAndPassword(email, password).await()
     }.toLoginResult()
 
+    suspend fun sendVerificationEmail() = runCatching {
+        firebase.auth.currentUser?.sendEmailVerification()?.await()
+    }.isSuccess
+
    private fun Result<AuthResult>.toLoginResult() = when (val result = getOrNull()) {
         null -> LoginResult.Error
         else -> {

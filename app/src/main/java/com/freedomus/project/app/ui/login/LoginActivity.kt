@@ -38,7 +38,7 @@ fun LoginSingIn(loginViewModel: LoginViewModel, navigationController: NavHostCon
 
 
 
-    Scaffold(topBar = { TopAppBarLogin("Registro", Color(0xFFFFB900) , {}, {}) }, containerColor = Color(0xFFF5B201)) {
+    Scaffold(topBar = { TopAppBarLogin("Registro", Color(0xFFF5B201) , {}, {}) }, containerColor = Color(0xFFF5B201)) {
         Column(
             Modifier
                 .padding(it)
