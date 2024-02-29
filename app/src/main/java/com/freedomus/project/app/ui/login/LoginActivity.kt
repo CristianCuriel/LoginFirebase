@@ -58,6 +58,7 @@ fun LoginSingIn(loginViewModel: LoginViewModel, navigationController: NavHostCon
     }//Scaffold
 
     initVerificationUser(navigateToVerifyAccount, navigationController)
+    initHomeUser(navigateToVerifyAccount,navigationController )
 
 }
 
@@ -148,3 +149,9 @@ private fun initVerificationUser(
     if (!navigateToVerifyAccount){navigationController.navigate(Routes.VerificationUser.route)}
 }
 
+private fun initHomeUser(
+    navigateToVerifyAccount: Boolean,
+    navigationController: NavHostController
+) {
+    if (navigateToVerifyAccount){navigationController.navigate(Routes.Home.route)}
+}
