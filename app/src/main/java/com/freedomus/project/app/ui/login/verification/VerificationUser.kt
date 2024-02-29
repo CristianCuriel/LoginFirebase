@@ -14,17 +14,22 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.freedomus.project.R
 import com.freedomus.project.app.core.routes.Routes
@@ -38,12 +43,11 @@ fun VerificationUser(loginViewModel: LoginViewModel, navigationController: NavHo
 
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 //@Preview(showSystemUi = true)
 @Composable
 fun Body(loginViewModel: LoginViewModel, navigationController: NavHostController) {
 
-    var keyboardController = LocalSoftwareKeyboardController.current
+    // var keyboardController = LocalSoftwareKeyboardController.current
 
     Scaffold(
         topBar = {
@@ -69,24 +73,7 @@ fun Body(loginViewModel: LoginViewModel, navigationController: NavHostController
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
-                Text(
-                    text = "Verficacion",
-                    fontSize = 32.sp,
-                    fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Center,
-                    letterSpacing = 2.sp
-                )
-
-                Spacer(modifier = Modifier.size(12.dp))
-
-                Text(
-                    text = "Se te ha enviado a tu correo un mensaje de verifiacion con el cual podremos validar tu cuenta.",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Normal,
-                    textAlign = TextAlign.Start,
-                    letterSpacing = 2.sp
-                )
-
+                HeaderView()
                 ImgVerification()
 
             }
@@ -98,7 +85,6 @@ fun Body(loginViewModel: LoginViewModel, navigationController: NavHostController
                     .padding(top = 24.dp)
 
             ) {
-
                 BtnVerification() {}
             }
 
@@ -108,25 +94,60 @@ fun Body(loginViewModel: LoginViewModel, navigationController: NavHostController
 
 }
 
+@Composable
+fun HeaderView() {
+    Text(
+        text = "Verficacion",
+        fontSize = 32.sp,
+        fontWeight = FontWeight.Bold,
+        textAlign = TextAlign.Center,
+        letterSpacing = 2.sp
+    )
 
-private fun backNavigation(
-    loginViewModel: LoginViewModel,
-    navigationController: NavHostController,
-) {
-    loginViewModel.changedNavigateToVerifyAccount(true)
-    navigationController.navigate(Routes.Login.route)
+    Spacer(modifier = Modifier.size(12.dp))
+
+    Text(
+        text = "Se te ha enviado a tu correo un mensaje de verifiacion con el cual podremos validar tu cuenta. " +
+                "Valida tu cuenta y vuelve a iniciar sesion.",
+        fontSize = 14.sp,
+        fontWeight = FontWeight.Normal,
+        textAlign = TextAlign.Start,
+        letterSpacing = 2.sp
+    )
+
 }
 
 @Composable
-private fun BtnVerification(send: () -> Unit) {
-    Button(modifier = Modifier
-        .fillMaxWidth()
-        .padding(vertical = 4.dp, horizontal = 14.dp),
+private fun BtnVerification(
+    send: () -> Unit,
+) {
+
+    val countdownViewModel = viewModel<CountdownViewModel>()
+    var isButtonEnabled by remember { mutableStateOf(false) }
+
+    LaunchedEffect(key1 = countdownViewModel) {
+        countdownViewModel.startCountdown()
+        countdownViewModel.counter.collect { count ->
+            if (count == 0) {
+                isButtonEnabled = true
+            }
+        }
+    }
+
+    Button(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp, horizontal = 14.dp),
         colors = ButtonDefaults.buttonColors(containerColor = Color.Black),
-        onClick = { send() }
+        onClick = {
+            send()
+            isButtonEnabled = false
+            countdownViewModel.startCountdown()
+        },
+        enabled = isButtonEnabled
     ) {
         Text(
-            "Volver a enviar",
+            text = if (countdownViewModel.counter.collectAsState().value != 0) "${countdownViewModel.counter.collectAsState().value} Volver a enviar" else "Volver a enviar",
             fontWeight = FontWeight.SemiBold,
             color = Color.White,
             fontSize = 16.sp,
@@ -146,3 +167,11 @@ private fun ImgVerification() {
     )
 }
 
+private fun backNavigation(
+    loginViewModel: LoginViewModel,
+    navigationController: NavHostController,
+) {
+    loginViewModel.changedNavigateToVerifyAccount(true)
+    navigationController.popBackStack(Routes.Login.route, false)
+
+}
