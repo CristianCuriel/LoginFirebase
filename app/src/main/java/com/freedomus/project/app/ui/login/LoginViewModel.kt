@@ -23,6 +23,9 @@ class LoginViewModel: ViewModel() {
     private val _viewState = MutableStateFlow(LoginViewState())
     val viewState:StateFlow<LoginViewState> = _viewState
 
+    private val _navigateToVerifyAccount = MutableStateFlow(true)
+    val navigateToVerifyAccount: StateFlow<Boolean> = _navigateToVerifyAccount
+
     private val _email = MutableLiveData("")
     val email : LiveData<String> = _email
 
@@ -34,7 +37,9 @@ class LoginViewModel: ViewModel() {
         _password.value = password
     }
 
-
+    fun changedNavigateToVerifyAccount(b:Boolean){
+        _navigateToVerifyAccount.value = b
+    }
     fun onLoginSelected() {
         if (isValidEmail(email.value!!) && isValidPassword(password.value!!)) {
             loginUser(email.value!!, password.value!!)
@@ -63,6 +68,7 @@ class LoginViewModel: ViewModel() {
                         Log.i("Cris","Usuario verificado")
                     } else {
                         Log.i("Cris","Usuario NO verificado")
+                        changedNavigateToVerifyAccount(false)
                     }
                 }
             }

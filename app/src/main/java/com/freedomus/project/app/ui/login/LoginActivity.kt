@@ -27,32 +27,42 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import com.freedomus.project.app.core.routes.Routes
 import com.freedomus.project.app.ui.login.component.EditTextLogin
 import com.freedomus.project.app.ui.login.component.OtherAccounts
 import com.freedomus.project.app.ui.login.component.TopAppBarLogin
+import com.freedomus.project.app.ui.login.verification.VerificationUser
 
 //@Preview(showSystemUi = true)
 @Composable
-fun LoginSingIn(loginViewModel: LoginViewModel) {
+fun LoginSingIn(loginViewModel: LoginViewModel, navigationController: NavHostController) {
 
     val uiState by loginViewModel.viewState.collectAsState()
+    val navigateToVerifyAccount by loginViewModel.navigateToVerifyAccount.collectAsState()
 
-    Box(Modifier.fillMaxSize().background(Color(0x9EC9B507)), contentAlignment = Alignment.Center) {
-        CircularProgressIndicator(strokeWidth = 8.dp,color = Color.Black)
-    }
 
-    Scaffold(topBar = { TopAppBarLogin("Registro") }, containerColor = Color(0xFFF5B201)) {
+
+    Scaffold(topBar = { TopAppBarLogin("Registro", Color(0xFFFFB900) , {}, {}) }, containerColor = Color(0xFFF5B201)) {
         Column(
             Modifier
                 .padding(it)
                 .fillMaxWidth()
         ) {
+
+/*            Box(Modifier.fillMaxSize().background(Color(0x1EC9B507)), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator(strokeWidth = 8.dp,color = Color.Black)
+
+            }*/
+
             TitleSingIn()
             Spacer(modifier = Modifier.padding(vertical = 8.dp))
             BodySingIn(loginViewModel, uiState)
         }
 
     }//Scaffold
+
+    initVerificationUser(navigateToVerifyAccount, navigationController)
 
 }
 
@@ -134,3 +144,12 @@ fun TitleSingIn() {
         )
     }
 }
+
+
+private fun initVerificationUser(
+    navigateToVerifyAccount: Boolean,
+    navigationController: NavHostController
+) {
+    if (!navigateToVerifyAccount){navigationController.navigate(Routes.VerificationUser.route)}
+}
+

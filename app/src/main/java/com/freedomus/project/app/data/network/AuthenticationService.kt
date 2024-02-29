@@ -12,7 +12,7 @@ class AuthenticationService {
         firebase.auth.signInWithEmailAndPassword(email, password).await()
     }.toLoginResult()
 
-    private fun Result<AuthResult>.toLoginResult() = when (val result = getOrNull()) {
+   private fun Result<AuthResult>.toLoginResult() = when (val result = getOrNull()) {
         null -> LoginResult.Error
         else -> {
             val userId = result.user
@@ -20,6 +20,7 @@ class AuthenticationService {
             LoginResult.Success(result.user?.isEmailVerified ?: false)
         }
     }
+
 
 
 }

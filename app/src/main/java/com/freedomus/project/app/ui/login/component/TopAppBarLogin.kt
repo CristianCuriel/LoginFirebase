@@ -17,14 +17,14 @@ import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopAppBarLogin(s: String) {
+fun TopAppBarLogin(s: String, color: Color, actionTxtBtn: () -> Unit, iconBtn: () -> Unit) {
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Color(0xFFB900)
+            containerColor = color
         ),
         title = { },
         navigationIcon = {
-            IconButton(onClick = { /* do something */ }) {
+            IconButton(onClick = { iconBtn()}) {
                 Icon(
                     imageVector = Icons.Filled.ArrowBack,
                     tint = Color.Black,
@@ -33,7 +33,7 @@ fun TopAppBarLogin(s: String) {
             }
         },
         actions = {
-            TextButton(onClick = {}) {
+            TextButton(onClick = {actionTxtBtn()}) {
                 Text(
                     text = s,
                     textAlign = TextAlign.End,
