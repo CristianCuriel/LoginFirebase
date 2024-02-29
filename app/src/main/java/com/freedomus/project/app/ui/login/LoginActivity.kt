@@ -35,10 +35,17 @@ fun LoginSingIn(loginViewModel: LoginViewModel, navigationController: NavHostCon
 
     val uiState by loginViewModel.viewState.collectAsState()
     val navigateToVerifyAccount by loginViewModel.navigateToVerifyAccount.collectAsState()
+    val navigateToHome by loginViewModel.navigateToHome.collectAsState()
 
 
 
-    Scaffold(topBar = { TopAppBarLogin("Registro", Color(0xFFF5B201) , {}, {}) }, containerColor = Color(0xFFF5B201)) {
+    Scaffold(topBar = {
+        TopAppBarLogin(
+            "Registro",
+            Color(0xFFF5B201),
+            {},
+            { navigationController.popBackStack(Routes.Introduction.route, false) })
+    }, containerColor = Color(0xFFF5B201)) {
         Column(
             Modifier
                 .padding(it)
@@ -57,7 +64,8 @@ fun LoginSingIn(loginViewModel: LoginViewModel, navigationController: NavHostCon
 
     }//Scaffold
 
-    initVerificationUser(navigateToVerifyAccount, navigationController)
+    initVerificationUser(navigateToVerifyAccount, navigationController, loginViewModel)
+    initHomeUser(navigateToHome, navigationController, loginViewModel)
 
 }
 
@@ -143,8 +151,22 @@ fun TitleSingIn() {
 
 private fun initVerificationUser(
     navigateToVerifyAccount: Boolean,
-    navigationController: NavHostController
+    navigationController: NavHostController,
+    loginViewModel: LoginViewModel,
 ) {
-    if (!navigateToVerifyAccount){navigationController.navigate(Routes.VerificationUser.route)}
+    if (!navigateToVerifyAccount) {
+        loginViewModel.changedNavigateToVerifyAccount()
+        navigationController.navigate(Routes.VerificationUser.route)
+    }
 }
 
+private fun initHomeUser(
+    navigateToHome: Boolean,
+    navigationController: NavHostController,
+    loginViewModel: LoginViewModel,
+) {
+    if (navigateToHome) {
+        loginViewModel.changedNavigateToHome(false)
+        navigationController.navigate(Routes.Home.route)
+    }
+}

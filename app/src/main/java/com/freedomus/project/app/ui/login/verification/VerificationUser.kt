@@ -27,38 +27,37 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.freedomus.project.R
 import com.freedomus.project.app.core.routes.Routes
-import com.freedomus.project.app.ui.login.LoginViewModel
 import com.freedomus.project.app.ui.login.component.TopAppBarLogin
 
 @Composable
-fun VerificationUser(loginViewModel: LoginViewModel, navigationController: NavHostController) {
+fun VerificationUser(
+    verificationViewModel: VerificationViewModel,
+    navigationController: NavHostController
+) {
 
-    Body(loginViewModel, navigationController)
+    Body(verificationViewModel, navigationController)
 
 }
 
 //@Preview(showSystemUi = true)
 @Composable
-fun Body(loginViewModel: LoginViewModel, navigationController: NavHostController) {
+fun Body(verificationViewModel: VerificationViewModel, navigationController: NavHostController) {
 
     // var keyboardController = LocalSoftwareKeyboardController.current
-
-    val verificationViewModel = viewModel<VerificationViewModel>()
 
     Scaffold(
         topBar = {
             TopAppBarLogin(
                 "Iniciar Sesion",
                 Color.White,
-                { backNavigation(loginViewModel, navigationController) },
-                { backNavigation(loginViewModel, navigationController) })
+                { backNavigation(navigationController) },
+                { backNavigation(navigationController) })
         },
         containerColor = Color.White
     ) {
@@ -181,10 +180,8 @@ private fun ImgVerification() {
 }
 
 private fun backNavigation(
-    loginViewModel: LoginViewModel,
     navigationController: NavHostController,
 ) {
-    loginViewModel.changedNavigateToVerifyAccount(true)
     navigationController.popBackStack(Routes.Login.route, false)
 
 }

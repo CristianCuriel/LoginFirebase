@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.freedomus.project.app.data.response.LoginResult
 import com.freedomus.project.app.domain.LoginUseCase
+import com.freedomus.project.app.domain.SignOutUserUseCase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,6 +30,9 @@ class LoginViewModel: ViewModel() {
     private val _navigateToVerifyAccount = MutableStateFlow(true)
     val navigateToVerifyAccount: StateFlow<Boolean> = _navigateToVerifyAccount
 
+    private val _navigateToHome = MutableStateFlow(false)
+    val navigateToHome: StateFlow<Boolean> = _navigateToHome
+
     private val _email = MutableLiveData("")
     val email : LiveData<String> = _email
 
@@ -40,9 +44,14 @@ class LoginViewModel: ViewModel() {
         _password.value = password
     }
 
-    fun changedNavigateToVerifyAccount(b:Boolean){
-        _navigateToVerifyAccount.value = b
+    fun changedNavigateToVerifyAccount(){
+        _navigateToVerifyAccount.value = !_navigateToVerifyAccount.value
     }
+
+    fun changedNavigateToHome(b:Boolean){
+        _navigateToHome.value = b
+    }
+
     fun onLoginSelected() {
         if (isValidEmail(email.value!!) && isValidPassword(password.value!!)) {
             loginUser(email.value!!, password.value!!)
@@ -69,9 +78,10 @@ class LoginViewModel: ViewModel() {
                 is LoginResult.Success -> {
                     if (result.verified) {
                         Log.i("Cris","Usuario verificado")
+                        changedNavigateToHome(true)
                     } else {
                         Log.i("Cris","Usuario NO verificado")
-                        changedNavigateToVerifyAccount(false)
+                        changedNavigateToVerifyAccount()
                     }
                 }
             }

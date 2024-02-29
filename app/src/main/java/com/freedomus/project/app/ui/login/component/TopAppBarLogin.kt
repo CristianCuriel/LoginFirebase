@@ -1,6 +1,7 @@
 package com.freedomus.project.app.ui.login.component
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -26,7 +27,7 @@ fun TopAppBarLogin(s: String, color: Color, actionTxtBtn: () -> Unit, iconBtn: (
         navigationIcon = {
             IconButton(onClick = { iconBtn()}) {
                 Icon(
-                    imageVector = Icons.Filled.ArrowBack,
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     tint = Color.Black,
                     contentDescription = "Localized description"
                 )
