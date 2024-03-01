@@ -9,8 +9,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+<<<<<<< HEAD
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+=======
+>>>>>>> origin/master
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -21,13 +24,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.freedomus.project.R
+<<<<<<< HEAD
 import com.freedomus.project.app.core.routes.Routes
+=======
+>>>>>>> origin/master
 
 @Composable
 fun Home(homeViewModel: HomeViewModel, navigationController: NavHostController) {
 
+<<<<<<< HEAD
     //val backToNavigateLogin by homeViewModel.backToNavigateLogin.collectAsState()
 
+=======
+>>>>>>> origin/master
     Column(
         Modifier
             .fillMaxWidth()
@@ -44,6 +53,7 @@ fun Home(homeViewModel: HomeViewModel, navigationController: NavHostController) 
         Spacer(modifier = Modifier.size(28.dp))
         ImgVerification()
         Spacer(modifier = Modifier.size(28.dp))
+<<<<<<< HEAD
         homeViewModel.userinfoProfile()?.email?.let {
             Text(
                 text = it,
@@ -61,12 +71,28 @@ fun Home(homeViewModel: HomeViewModel, navigationController: NavHostController) 
             homeViewModel.signOutUser()
         }
         ) {
+=======
+        Text(
+            text = homeViewModel.userinfoProfile()?.email!!,
+            fontSize = 22.sp,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center,
+            letterSpacing = 2.sp
+        )
+
+        Spacer(modifier = Modifier.size(28.dp))
+
+        Button(onClick = { }) {
+>>>>>>> origin/master
             Text(text = "Cerrar sesion")
         }
     }
 
+<<<<<<< HEAD
     //back(backToNavigateLogin, navigationController, homeViewModel)
 
+=======
+>>>>>>> origin/master
 }
 
 @Composable
@@ -77,6 +103,7 @@ private fun ImgVerification() {
         contentScale = ContentScale.Fit,
         modifier = Modifier.size(300.dp, 300.dp)
     )
+<<<<<<< HEAD
 }
 
 private fun back(
@@ -88,4 +115,6 @@ private fun back(
        homeViewModel.changed()
         navigationController.popBackStack(Routes.Login.route, false)
     }
+=======
+>>>>>>> origin/master
 }

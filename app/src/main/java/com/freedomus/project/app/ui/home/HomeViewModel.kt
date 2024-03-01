@@ -1,15 +1,21 @@
 package com.freedomus.project.app.ui.home
 
+<<<<<<< HEAD
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.freedomus.project.app.domain.SignOutUserUseCase
 import com.freedomus.project.app.domain.UserInfoProfile
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+=======
+import androidx.lifecycle.ViewModel
+import com.freedomus.project.app.domain.UserInfoProfile
+>>>>>>> origin/master
 
 class HomeViewModel : ViewModel() {
 
     private val userInfoProfile = UserInfoProfile()
+<<<<<<< HEAD
     private val signOutUserUseCase = SignOutUserUseCase()
 
 
@@ -32,5 +38,10 @@ class HomeViewModel : ViewModel() {
         _backToNavigateLogin.value = !_backToNavigateLogin.value
     }
 
+=======
+
+    fun userinfoProfile() = userInfoProfile()
+
+>>>>>>> origin/master
 
 }
