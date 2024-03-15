@@ -16,14 +16,28 @@ class HomeViewModel : ViewModel() {
     private val signOutUserUseCase = SignOutUserUseCase()
 
 
+
     private val _backToNavigateLogin = MutableStateFlow(false)
     val backToNavigateLogin: StateFlow<Boolean> = _backToNavigateLogin
+
+    private val _isSessionActive = MutableStateFlow(false)
+    val isSessionActive: StateFlow<Boolean> = _isSessionActive
+
+    init {
+        checkSessionUser()
+    }
+
+    fun checkSessionUser(){
+        userInfoProfile.checkSession().addAuthStateListener {
+            if (it.currentUser !=null)  _isSessionActive.value = true else _isSessionActive.value = false
+        }
+    }
 
     fun userinfoProfile() = userInfoProfile()
 
     fun signOutUser() {
         if (signOutUserUseCase()){
-            Log.i("Cris", "${_backToNavigateLogin.value}")
+            //Log.i("Cris", "volver al login ${_backToNavigateLogin.value}")
             Log.i("Cris", "Sesion cerrada con exito")
         }else{
             Log.i("Cris", "Problemas cerrando la sesion")

@@ -1,5 +1,10 @@
 package com.freedomus.project.app.ui.home
 
+import android.app.Activity
+import android.content.Context
+import android.os.Build
+import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -9,9 +14,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -24,6 +32,27 @@ import com.freedomus.project.app.core.routes.Routes
 @Composable
 fun Home(homeViewModel: HomeViewModel, navigationController: NavHostController) {
 
+    val isSessionActive by homeViewModel.isSessionActive.collectAsState()
+
+
+    // Manejar el comportamiento del botón de retroceso
+    BackHandler(enabled = isSessionActive) {
+        if (isSessionActive) {
+            // Si hay una sesión activa, salir de la app
+            
+        } else {
+            // Si no hay una sesión activa, navegar al login
+            navigationController.popBackStack(Routes.Login.route, false)
+        }
+    }
+
+        BodyHome(homeViewModel, navigationController)
+
+
+}
+
+@Composable
+fun BodyHome(homeViewModel: HomeViewModel, navigationController: NavHostController){
     Column(
         Modifier
             .fillMaxWidth()

@@ -39,28 +39,26 @@ import com.freedomus.project.app.ui.login.LoginViewState
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun EditTextLogin(loginViewModel: LoginViewModel, uiState: LoginViewState) {
-    var keyboardController = LocalSoftwareKeyboardController.current
 
     val email: String by loginViewModel.email.observeAsState(initial = "")
     val password: String by loginViewModel.password.observeAsState(initial = "")
 
-    Email(email, uiState.isValidEmail, keyboardController!!) { c ->
+    Email(email, uiState.isValidEmail) { c ->
         loginViewModel.onLoginChanged(email = c, password = password)
     }
 
     Spacer(modifier = Modifier.padding(vertical = 4.dp))
 
-    Password(password, uiState.isValidPassword, keyboardController!!) {
+    Password(password, uiState.isValidPassword) {
         loginViewModel.onLoginChanged(email = email, password = it)
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
+
 @Composable
 fun Password(
     password: String,
     visible: Boolean,
-    keyboardController: SoftwareKeyboardController,
     onTextChange: (String) -> Unit,
 ) {
 
@@ -74,7 +72,7 @@ fun Password(
 
         if (!visible) {
             Text(
-                "Contraseña no valida, verificar",
+                "La contraseña debe tener minimo 6 caracteres",
                 fontSize = 12.sp,
                 color = Color.Red,
                 fontWeight = FontWeight.SemiBold,
@@ -127,7 +125,6 @@ fun Password(
 fun Email(
     email: String,
     visible: Boolean,
-    keyboardController: SoftwareKeyboardController,
     onTextChange: (String) -> Unit,
 ) {
 

@@ -3,6 +3,7 @@ package com.freedomus.project.app.data.network
 import com.freedomus.project.app.data.model.UserProfile
 import com.freedomus.project.app.data.response.LoginResult
 import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.tasks.await
 
@@ -21,10 +22,23 @@ class AuthenticationService {
         firebase.auth.signOut()
     }.isSuccess
 
+    fun checkSession(): FirebaseAuth = firebase.auth
+
+
     suspend fun sendVerificationEmail() = runCatching {
         firebase.auth.currentUser?.sendEmailVerification()?.await()
     }.isSuccess
 
+    private fun Result<AuthResult>.toLoginResult() = when (val result = getOrNull()) {
+        null -> LoginResult.Error(exception = exceptionOrNull()!!)
+        else -> {
+            val userId = result.user
+            checkNotNull(userId)
+            LoginResult.Success(result.user?.isEmailVerified ?: false)
+        }
+    }
+
+/*
    private fun Result<AuthResult>.toLoginResult() = when (val result = getOrNull()) {
         null -> LoginResult.Error
         else -> {
@@ -33,6 +47,7 @@ class AuthenticationService {
             LoginResult.Success(result.user?.isEmailVerified ?: false)
         }
     }
+*/
 
 
 
