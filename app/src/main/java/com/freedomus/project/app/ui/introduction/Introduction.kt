@@ -86,7 +86,7 @@ fun CardBody(navigationController: NavHostController) {
             BodyText()
 
             Spacer(modifier = Modifier.size(18.dp))
-            Btnactions({}, {navigationController.navigate(Routes.Login.route)})
+            Btnactions({navigationController.navigate(Routes.RegisterUser.route)}, {navigationController.navigate(Routes.Login.route)})
 
         }
 

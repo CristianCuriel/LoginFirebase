@@ -9,6 +9,7 @@ import com.freedomus.project.app.core.routes.Routes
 import com.freedomus.project.app.ui.home.Home
 import com.freedomus.project.app.ui.introduction.Introduction
 import com.freedomus.project.app.ui.login.login.LoginSingIn
+import com.freedomus.project.app.ui.login.register.RegisterUser
 import com.freedomus.project.app.ui.login.verification.VerificationUser
 import com.freedomus.project.app.ui.login.verification.VerificationViewModel
 
@@ -25,6 +26,7 @@ fun NavigationsViews(){
         composable(Routes.Introduction.route) { Introduction(navigationController) }
         composable(Routes.Login.route) { LoginSingIn(navigationController) }
         composable(Routes.VerificationUser.route) { VerificationUser(verificationViewModel, navigationController) }
+        composable(Routes.RegisterUser.route) { RegisterUser(navigationController) }
         composable(Routes.Home.route) { Home(navigationController) }
     }//NavHost
 
