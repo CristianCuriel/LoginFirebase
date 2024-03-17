@@ -33,12 +33,12 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.freedomus.project.R
 import com.freedomus.project.app.core.routes.Routes
-import com.freedomus.project.app.ui.login.component.TopAppBarLogin
+import com.freedomus.project.app.ui.login.login.component.TopAppBarLogin
 
 @Composable
 fun VerificationUser(
     verificationViewModel: VerificationViewModel,
-    navigationController: NavHostController
+    navigationController: NavHostController,
 ) {
 
     Body(verificationViewModel, navigationController)
@@ -49,7 +49,6 @@ fun VerificationUser(
 @Composable
 fun Body(verificationViewModel: VerificationViewModel, navigationController: NavHostController) {
 
-    // var keyboardController = LocalSoftwareKeyboardController.current
 
     Scaffold(
         topBar = {

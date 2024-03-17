@@ -1,4 +1,4 @@
-package com.freedomus.project.app.ui.login
+package com.freedomus.project.app.ui.login.login
 
 data class LoginViewState(
     val isLoading: Boolean = false,

@@ -1,6 +1,5 @@
-package com.freedomus.project.app.ui.login
+package com.freedomus.project.app.ui.login.login
 
-import android.util.Log
 import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -25,8 +24,8 @@ class LoginViewModel : ViewModel() {
     private val _viewLoginState = MutableStateFlow<LoginResult>(LoginResult.Loading)
     val viewLoginState: StateFlow<LoginResult> = _viewLoginState
 
-    private val _viewState = MutableStateFlow(LoginViewState())
-    val viewState: StateFlow<LoginViewState> = _viewState
+    private val _viewStateVerifi = MutableStateFlow(LoginViewState())
+    val viewStateVerifi: StateFlow<LoginViewState> = _viewStateVerifi
 
     private val _isSessionActive = MutableStateFlow(false)
     val isSessionActive: StateFlow<Boolean> = _isSessionActive
@@ -39,7 +38,7 @@ class LoginViewModel : ViewModel() {
     val password: LiveData<String> = _password
 
 
-    fun checkSessionUser(){
+    private fun checkSessionUser(){
         userInfoProfile.checkSession().addAuthStateListener {
             if (it.currentUser !=null)  _isSessionActive.value = true else _isSessionActive.value = false
         }
@@ -59,8 +58,8 @@ class LoginViewModel : ViewModel() {
         }
     }
 
-    fun onFieldsChanged(email: String, password: String) {
-        _viewState.value = LoginViewState(
+    private fun onFieldsChanged(email: String, password: String) {
+        _viewStateVerifi.value = LoginViewState(
             isValidEmail = isValidEmail(email),
             isValidPassword = isValidPassword(password)
         )
@@ -68,25 +67,17 @@ class LoginViewModel : ViewModel() {
 
     private fun loginUser(email: String, password: String) {
         viewModelScope.launch {
-
-            val result = loginUseCase(email, password)
-
-            when(result){
-                is LoginResult.Error -> {
-                    Log.i("Cris","Error al iniciar sesion ${ result.exception}")
-
-                }
-                is LoginResult.Loading -> {
-                    //Estado cargando
-                }
-                is LoginResult.Success -> {
-                    // Estado de inicio de sesion exitoso
-                    checkSessionUser()
-                }
-            }
-
+            _viewStateVerifi.value = LoginViewState(isLoading = true)
+             _viewLoginState.value = loginUseCase(email, password)
+            _viewStateVerifi.value = LoginViewState(isLoading = false)
         }
     }
+
+    fun resetStateUI() {
+        _viewLoginState.value = LoginResult.Loading
+    }
+
+
 
     /*    private fun loginUser(email: String, password: String) {
             viewModelScope.launch {

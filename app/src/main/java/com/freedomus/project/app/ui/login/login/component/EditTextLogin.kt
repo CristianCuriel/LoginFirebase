@@ -1,4 +1,4 @@
-package com.freedomus.project.app.ui.login.component
+package com.freedomus.project.app.ui.login.login.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -21,22 +21,18 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.freedomus.project.app.ui.login.LoginViewModel
-import com.freedomus.project.app.ui.login.LoginViewState
+import com.freedomus.project.app.ui.login.login.LoginViewModel
+import com.freedomus.project.app.ui.login.login.LoginViewState
 
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun EditTextLogin(loginViewModel: LoginViewModel, uiState: LoginViewState) {
 

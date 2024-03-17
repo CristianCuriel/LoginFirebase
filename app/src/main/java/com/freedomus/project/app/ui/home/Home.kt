@@ -25,12 +25,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.freedomus.project.R
 import com.freedomus.project.app.core.routes.Routes
 
 @Composable
-fun Home(homeViewModel: HomeViewModel, navigationController: NavHostController) {
+fun Home(navigationController: NavHostController) {
+
+    val homeViewModel = viewModel<HomeViewModel>()
 
     val isSessionActive by homeViewModel.isSessionActive.collectAsState()
 
