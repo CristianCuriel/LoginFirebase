@@ -1,6 +1,5 @@
 package com.freedomus.project.app.data.network
 
-import com.freedomus.project.app.data.model.UserProfile
 import com.freedomus.project.app.data.response.LoginResult
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
@@ -17,6 +16,10 @@ class AuthenticationService {
     suspend fun login(email: String, password: String): LoginResult = runCatching {
         firebase.auth.signInWithEmailAndPassword(email, password).await()
     }.toLoginResult()
+
+    suspend fun createAccount(email: String, password: String): AuthResult? {
+        return firebase.auth.createUserWithEmailAndPassword(email, password).await()
+    }
 
     fun signOutUser() = runCatching {
         firebase.auth.signOut()

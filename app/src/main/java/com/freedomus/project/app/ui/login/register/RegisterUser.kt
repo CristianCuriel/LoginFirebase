@@ -10,6 +10,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
@@ -44,6 +46,7 @@ fun RegisterUser(navigationController: NavHostController) {
     val nombre: String by registerViewModel.nombre.observeAsState(initial = "")
     val apellido: String by registerViewModel.apellido.observeAsState(initial = "")
     val contra: String by registerViewModel.contra.observeAsState(initial = "")
+    val correo: String by registerViewModel.correo.observeAsState(initial = "")
     val contraConfir: String by registerViewModel.contraConfir.observeAsState(initial = "")
 
     Scaffold(topBar = {
@@ -56,12 +59,40 @@ fun RegisterUser(navigationController: NavHostController) {
         Column(
             Modifier
                 .padding(it)
-                .fillMaxWidth()
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            FormRegister(nombre, apellido, contra, contraConfir, registerViewModel)
+            Text(
+                text = "Registro de usuarios",
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold
+            )
+
+            FormRegister(nombre, apellido, contra, contraConfir, correo, registerViewModel)
+            BtnRegister(){registerViewModel.registerUser()}
+
 
         }
+    }
+}
+
+@Composable
+fun BtnRegister(register: () -> Unit ) {
+    Button(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp, horizontal = 14.dp),
+        colors = ButtonDefaults.buttonColors(containerColor = Color.Black),
+        onClick = { register() }
+    ) {
+        Text(
+            text = "Regitrarme!",
+            fontWeight = FontWeight.SemiBold,
+            color = Color.White,
+            fontSize = 16.sp,
+            modifier = Modifier.padding(4.dp)
+        )
     }
 }
 
@@ -71,20 +102,24 @@ fun FormRegister(
     apellido: String,
     contra: String,
     contraConfir: String,
+    correo: String,
     registerViewModel: RegisterViewModel,
 ) {
     Column(
         Modifier
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(14.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+
+
         EditTextApp(texto = nombre, "Nombre") {
             registerViewModel.onRegisterChanged(
                 nombre = it,
                 apellido = apellido,
                 contra = contra,
+                correo = correo,
                 contraConfir = contraConfir
             )
         }
@@ -94,6 +129,17 @@ fun FormRegister(
                 nombre = nombre,
                 apellido = it,
                 contra = contra,
+                correo = correo,
+                contraConfir = contraConfir
+            )
+        }
+
+        EditTextApp(texto = correo, "Correo") {
+            registerViewModel.onRegisterChanged(
+                nombre = nombre,
+                apellido = apellido,
+                contra = contra,
+                correo = it,
                 contraConfir = contraConfir
             )
         }
@@ -103,6 +149,7 @@ fun FormRegister(
                 nombre = nombre,
                 apellido = apellido,
                 contra = it,
+                correo = correo,
                 contraConfir = contraConfir
             )
         }
@@ -112,6 +159,7 @@ fun FormRegister(
                 nombre = nombre,
                 apellido = apellido,
                 contra = contra,
+                correo = correo,
                 contraConfir = it
             )
         }
@@ -125,38 +173,29 @@ fun EditTextApp(
     S: String,
     onTextChange: (String) -> Unit,
 ) {
-
-    Column(
+    OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 4.dp, horizontal = 14.dp)
-    ) {
-
-        OutlinedTextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(60.dp),
-            value = texto,
-            onValueChange = { onTextChange(it) },
-            maxLines = 1,
-            singleLine = true,
-            placeholder = { Text(S)},
-            colors = OutlinedTextFieldDefaults.colors(
-                unfocusedContainerColor = Color(0xFFF5F5F5),
-                unfocusedBorderColor = Color(0xFFF5F5F5),
-                unfocusedPlaceholderColor = Color.DarkGray,
-                focusedBorderColor = Color(0xFFF5B201),
-                focusedContainerColor = Color.Transparent
-            ),
-            shape = RoundedCornerShape(26.dp),
-            keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Next
-            )
-
+            .height(60.dp),
+        value = texto,
+        onValueChange = { onTextChange(it) },
+        maxLines = 1,
+        singleLine = true,
+        placeholder = { Text(S) },
+        colors = OutlinedTextFieldDefaults.colors(
+            unfocusedContainerColor = Color(0xFFF5F5F5),
+            unfocusedBorderColor = Color(0xFFF5F5F5),
+            unfocusedPlaceholderColor = Color.DarkGray,
+            focusedBorderColor = Color(0xFFF5B201),
+            focusedContainerColor = Color.Transparent
+        ),
+        shape = RoundedCornerShape(26.dp),
+        keyboardOptions = KeyboardOptions(
+            imeAction = ImeAction.Next
         )
 
-    }//Column
-
+    )
 }
 
 @Composable
