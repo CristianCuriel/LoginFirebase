@@ -31,7 +31,6 @@ fun LoginSingIn(navigationController: NavHostController) {
 
     val uiStateLogin by loginViewModel.viewLoginState.collectAsState()
     val viewStateVerifi by loginViewModel.viewStateVerifi.collectAsState()
-    //val isSessionActive by loginViewModel.isSessionActive.collectAsState()
 
     Scaffold(topBar = {
         TopAppBarLogin(

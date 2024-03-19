@@ -78,29 +78,6 @@ class LoginViewModel : ViewModel() {
     }
 
 
-
-    /*    private fun loginUser(email: String, password: String) {
-            viewModelScope.launch {
-                _viewState.value = LoginViewState(isLoading = true)
-                when (val result = loginUseCase(email, password)) {
-                    LoginResult.Error -> {
-                        Log.i("Cris","Error al iniciar sesion ${ LoginResult.Error}")
-                        _viewState.value = LoginViewState(isLoading = false)
-                    }
-                    is LoginResult.Success -> {
-                        if (result.verified) {
-                            Log.i("Cris","Usuario verificado")
-                            changedNavigateToHome(true)
-                        } else {
-                            Log.i("Cris","Usuario NO verificado")
-                            changedNavigateToVerifyAccount()
-                        }
-                    }
-                }
-                _viewState.value = LoginViewState(isLoading = false)
-            }
-        }*/
-
     private fun isValidEmail(email: String): Boolean {
         val b = Patterns.EMAIL_ADDRESS.matcher(email).matches()
         return b && email.isNotEmpty()

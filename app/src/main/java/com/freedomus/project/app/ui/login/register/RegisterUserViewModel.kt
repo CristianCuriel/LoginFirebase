@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.freedomus.project.app.data.response.RegisterResponse
 import com.freedomus.project.app.domain.CreateAccountUseCase
 import com.freedomus.project.app.ui.login.register.model.UserSignIn
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -34,6 +35,15 @@ class RegisterViewModel : ViewModel() {
     private val _navigateVerificationEmail = MutableStateFlow(false)
     val navigateVerificationEmail: StateFlow<Boolean> = _navigateVerificationEmail
 
+    private val _ShowDialogError = MutableStateFlow(false)
+    val ShowDialogError: StateFlow<Boolean> = _ShowDialogError
+
+    private val _viewStateVerifi = MutableStateFlow(StateDataRegister())
+    val viewStateVerifi: StateFlow<StateDataRegister> = _viewStateVerifi
+
+    private val _textErrorRegister = MutableLiveData("")
+    val textErrorRegister: LiveData<String> = _textErrorRegister
+
     fun onRegisterChanged(
         nombre: String,
         apellido: String,
@@ -49,47 +59,53 @@ class RegisterViewModel : ViewModel() {
     }
 
     fun registerUser() {
-        Log.i("Cris", "Nombre esta vacio: ${isValidName(_nombre.value!!)}")
-        Log.i("Cris", "Email verificado: ${isValidOrEmptyEmail(_correo.value!!)}")
-        Log.i(
-            "Cris",
-            "Contraseña verificado: ${
-                isValidOrEmptyPassword(
-                    _contra.value!!,
-                    _contraConfir.value!!
-                )
-            }"
+
+        val U = UserSignIn(
+            nombre = _nombre.value!!,
+            apellido = _apellido.value!!,
+            correo = _correo.value!!,
+            contrasena = _contra.value!!,
+            contrasenaConfirmada = _contraConfir.value!!
         )
 
-        if (isValidName(_nombre.value!!) && isValidOrEmptyEmail(_correo.value!!) && isValidOrEmptyPassword(
-                _contra.value!!,
-                _contraConfir.value!!
-            )
+        if (isValidName(U.nombre) && isValidOrEmptyEmail(U.correo) && isValidOrEmptyPassword(
+                U.contrasena, U.contrasenaConfirmada )
         ) {
             viewModelScope.launch {
-                val accountCreated = createAccountUseCase(
-                    UserSignIn(
-                        nombre = _nombre.value!!,
-                        apellido = _apellido.value!!,
-                        correo = _correo.value!!,
-                        contrasena = _contra.value!!,
-                        contrasenaConfirmada = _contraConfir.value!!
-                    )
-                )
+                val accountCreated = createAccountUseCase(U)
 
-                if(accountCreated){
-                    _navigateVerificationEmail.value = true
-                    Log.i("Cris", "Vamos a verificar el email!!")
-                }else{
-                    Log.i("Cris", "Error al crear el usuario")
+                accountCreated.collect { C ->
+                    when (C) {
+                        is RegisterResponse.Error -> {
+                            _ShowDialogError.value = true
+                            _textErrorRegister.value = C.message
+                            Log.i("Cris", C.message)
+                        }
+
+                        is RegisterResponse.Success -> {
+                            _navigateVerificationEmail.value = true
+                        }
+                    }
                 }
             }
 
-        }else{
-            Log.i("Cris", "Verifique los datos de entrada.")
+        } else {
+            onFieldsChanged(U)
         }
 
 
+    }
+
+    fun onDimissDialogError(){
+        _ShowDialogError.value = !_ShowDialogError.value
+    }
+
+    private fun onFieldsChanged(U: UserSignIn) {
+        _viewStateVerifi.value = StateDataRegister(
+            isValidContra = validarContrasena(U.contrasena),
+            isValidContraConfir = isValidOrEmptyPassword(U.contrasena, U.contrasenaConfirmada),
+            isValidEmail = isValidOrEmptyEmail(U.correo),
+            )
     }
 
 
@@ -106,6 +122,10 @@ class RegisterViewModel : ViewModel() {
     private fun validarContrasena(contra: String): Boolean {
         val regex = Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{6,}\$")
         return regex.matches(contra)
+    }
+
+    fun changedStateNavigateVerification() {
+        _navigateVerificationEmail.value = false
     }
 
 }

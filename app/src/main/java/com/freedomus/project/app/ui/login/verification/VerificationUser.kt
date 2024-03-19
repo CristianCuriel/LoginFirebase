@@ -32,8 +32,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.freedomus.project.R
-import com.freedomus.project.app.core.routes.Routes
-import com.freedomus.project.app.ui.login.login.component.TopAppBarLogin
 
 @Composable
 fun VerificationUser(
@@ -51,13 +49,14 @@ fun Body(verificationViewModel: VerificationViewModel, navigationController: Nav
 
 
     Scaffold(
-        topBar = {
-            TopAppBarLogin(
-                "Iniciar Sesion",
-                Color.White,
-                { backNavigation(navigationController) },
-                { backNavigation(navigationController) })
-        },
+        /*        topBar = {
+                    TopAppBarLogin(
+                        "Iniciar Sesion",
+                        Color.White,
+                        { backNavigation(navigationController) },
+                        { backNavigation(navigationController) })
+                },
+               */
         containerColor = Color.White
     ) {
         Column(
@@ -178,9 +177,9 @@ private fun ImgVerification() {
     )
 }
 
-private fun backNavigation(
+/*private fun backNavigation(
     navigationController: NavHostController,
 ) {
     navigationController.popBackStack(Routes.Login.route, false)
 
-}
+}*/
