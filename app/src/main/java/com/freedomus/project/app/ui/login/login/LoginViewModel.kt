@@ -17,13 +17,6 @@ class LoginViewModel : ViewModel() {
     private val loginUseCase = LoginUseCase()
     //private val userInfoProfile = UserInfoProfile()
 
-    private companion object {
-        const val MIN_PASSWORD_LENGTH = 6
-    }
-
-    private val _viewLoginState = MutableStateFlow<LoginResult>(LoginResult.Initial)
-    val viewLoginState: StateFlow<LoginResult> = _viewLoginState
-
     private val _viewStateVerifi = MutableStateFlow(LoginViewState())
     val viewStateVerifi: StateFlow<LoginViewState> = _viewStateVerifi
 
@@ -90,7 +83,7 @@ class LoginViewModel : ViewModel() {
     }
 
     fun resetStateUI() {
-        _viewLoginState.value = LoginResult.Initial
+        _navigateHome.value = false
     }
 
     fun onDimissDialogError(){
