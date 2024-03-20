@@ -96,7 +96,7 @@ private fun BtnLogin(viewStateVerifi: LoginViewState, action: () -> Unit) {
     {
 
         if(viewStateVerifi.isLoading) {
-            CircularProgressIndicator(strokeWidth = 2.dp, color = Color.White, modifier = Modifier.size(6.dp))
+            CircularProgressIndicator(strokeWidth = 2.dp, color = Color.White, modifier = Modifier.size(12.dp))
         }
 
         Text(

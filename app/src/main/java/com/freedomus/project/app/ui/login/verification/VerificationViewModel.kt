@@ -28,7 +28,6 @@ class VerificationViewModel() : ViewModel() {
         viewModelScope.launch {
             verifyEmailUseCase().collect {
                 _navigateLogin.value = it
-
             }
         }
     }

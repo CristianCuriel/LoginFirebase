@@ -66,7 +66,7 @@ fun DialogInfo(ShowDialogError: Boolean, textError: String, @DrawableRes imagen:
                     )
 
                     Text(
-                        text = "Error",
+                        text = "Atencion!",
                         fontSize = 22.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.DarkGray,

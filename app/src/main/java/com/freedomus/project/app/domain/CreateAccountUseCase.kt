@@ -14,6 +14,10 @@ class CreateAccountUseCase {
     suspend operator fun invoke(userSignIn: UserSignIn): Flow<RegisterResponse> =
             authenticationService.createAccount(userSignIn.correo, userSignIn.contrasena)
 
+    suspend fun saveAccountInfoCreated(userSignIn: UserSignIn){
+        userService.createUserTable(userSignIn)
+    }
+
 
 
 }

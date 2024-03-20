@@ -26,7 +26,7 @@ fun BtnRegister(viewStateVerifi: StateDataRegister, register: () -> Unit) {
     ) {
 
         if(viewStateVerifi.isLoading) {
-            CircularProgressIndicator(strokeWidth = 2.dp, color = Color.White, modifier = Modifier.size(6.dp))
+            CircularProgressIndicator(strokeWidth = 2.dp, color = Color.White, modifier = Modifier.size(12.dp))
         }
 
         Text(

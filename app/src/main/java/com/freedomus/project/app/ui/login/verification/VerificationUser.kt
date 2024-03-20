@@ -1,6 +1,5 @@
 package com.freedomus.project.app.ui.login.verification
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -36,6 +35,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.freedomus.project.R
 import com.freedomus.project.app.core.routes.Routes
+import com.freedomus.project.app.ui.login.register.component.DialogInfo
 
 @Composable
 fun VerificationUser(
@@ -56,7 +56,6 @@ fun Body(verificationViewModel: VerificationViewModel, navigationController: Nav
 
     val context = LocalContext.current
 
-
     Scaffold(
         /*        topBar = {
                     TopAppBarLogin(
@@ -69,13 +68,21 @@ fun Body(verificationViewModel: VerificationViewModel, navigationController: Nav
         containerColor = Color.White
     ) {
 
+        var ShowDialogError by remember {
+            mutableStateOf(false)
+        }
+
+        val textErrorRegister = "Gracias por confirmar tu correo con nosotros. Ya puedes inciar sesion!"
+
         LaunchedEffect(navigateLogin) {
             if(navigateLogin){
-                Log.i("Cris", "El email ha sido verificado")
                 Toast.makeText(context,"Email verificado", Toast.LENGTH_SHORT).show()
+                ShowDialogError = true
                 navigationController.popBackStack(Routes.Introduction.route, false)
             }
         }
+
+        DialogInfo(ShowDialogError, textErrorRegister, R.drawable.deniedregister){ShowDialogError = !ShowDialogError}
 
         Column(
             Modifier

@@ -84,6 +84,7 @@ class RegisterViewModel : ViewModel() {
                         }
 
                         is RegisterResponse.Success -> {
+                            createAccountUseCase.saveAccountInfoCreated(U)
                             _navigateVerificationEmail.value = true
                         }
                     }

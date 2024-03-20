@@ -60,7 +60,7 @@ fun LoginSingIn(navigationController: NavHostController) {
             TitleSingIn()
             Spacer(modifier = Modifier.padding(vertical = 8.dp))
             BodySingIn(loginViewModel, viewStateVerifi)
-            DialogInfo(ShowDialogError, textErrorRegister, R.drawable.deniedregister){loginViewModel.onDimissDialogError()}
+            DialogInfo(ShowDialogError, textErrorRegister, R.drawable.confirmed){loginViewModel.onDimissDialogError()}
 
         }
 
