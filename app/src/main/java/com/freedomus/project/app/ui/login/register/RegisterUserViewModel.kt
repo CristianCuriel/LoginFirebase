@@ -72,6 +72,7 @@ class RegisterViewModel : ViewModel() {
                 U.contrasena, U.contrasenaConfirmada )
         ) {
             viewModelScope.launch {
+                _viewStateVerifi.value = StateDataRegister( isLoading = true)
                 val accountCreated = createAccountUseCase(U)
 
                 accountCreated.collect { C ->
@@ -87,6 +88,7 @@ class RegisterViewModel : ViewModel() {
                         }
                     }
                 }
+                _viewStateVerifi.value = StateDataRegister( isLoading = false)
             }
 
         } else {

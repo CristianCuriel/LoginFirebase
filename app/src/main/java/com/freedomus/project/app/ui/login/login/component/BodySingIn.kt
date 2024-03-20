@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -95,7 +96,7 @@ private fun BtnLogin(viewStateVerifi: LoginViewState, action: () -> Unit) {
     {
 
         if(viewStateVerifi.isLoading) {
-            CircularProgressIndicator(strokeWidth = 2.dp, color = Color.White)
+            CircularProgressIndicator(strokeWidth = 2.dp, color = Color.White, modifier = Modifier.size(6.dp))
         }
 
         Text(

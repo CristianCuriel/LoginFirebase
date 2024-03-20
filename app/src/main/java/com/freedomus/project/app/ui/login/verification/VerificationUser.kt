@@ -1,5 +1,7 @@
 package com.freedomus.project.app.ui.login.verification
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -24,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -32,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.freedomus.project.R
+import com.freedomus.project.app.core.routes.Routes
 
 @Composable
 fun VerificationUser(
@@ -47,6 +51,11 @@ fun VerificationUser(
 @Composable
 fun Body(verificationViewModel: VerificationViewModel, navigationController: NavHostController) {
 
+    val navigateLogin by verificationViewModel.navigateLogin.collectAsState()
+
+
+    val context = LocalContext.current
+
 
     Scaffold(
         /*        topBar = {
@@ -59,6 +68,15 @@ fun Body(verificationViewModel: VerificationViewModel, navigationController: Nav
                */
         containerColor = Color.White
     ) {
+
+        LaunchedEffect(navigateLogin) {
+            if(navigateLogin){
+                Log.i("Cris", "El email ha sido verificado")
+                Toast.makeText(context,"Email verificado", Toast.LENGTH_SHORT).show()
+                navigationController.popBackStack(Routes.Introduction.route, false)
+            }
+        }
+
         Column(
             Modifier
                 .padding(it)
